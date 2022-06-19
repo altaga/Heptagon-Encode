@@ -18,22 +18,23 @@ class Crypto extends Component {
             transactions: []
         };
         this.axios = require('axios');
+        this.CancelToken = require('axios').CancelToken;
+        this.source = this.CancelToken.source();
     }
 
     static contextType = ContextModule;
 
     async componentDidMount() {
-        var config = {
+        this.axios({
             method: 'get',
-            url: `https://deep-index.moralis.io/api/v2/${this.context.value.cryptoaddress.address}/balance?chain=mumbai`,
+            url: `https://api.covalenthq.com/v1/80001/address/${this.context.value.cryptoaddress.address}/balances_v2/?key=XXXXXXXXXXXXXXXXXXXXXXXXXXX`,
             headers: {
-                'accept': 'application/json',
-                'X-API-Key': 'xxxxxxxxxxxxxxxxxx'
-            }
-        };
-        this.axios(config)
+                'Accept': 'application/json'
+            },
+            cancelToken: this.source.token
+        })
             .then((response) => {
-                this.context.setValue({ cryptobalance: response.data.balance / 1000000000000000000 });
+                this.context.setValue({ cryptobalance: response.data.data.items[0].balance / 1000000000000000000 });
             })
             .catch((error) => {
                 console.log(error);
@@ -43,7 +44,7 @@ class Crypto extends Component {
     }
 
     componentWillUnmount() {
-
+        this.source.cancel("Component got unmounted");
     }
 
     render() {

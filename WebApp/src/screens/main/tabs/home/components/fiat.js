@@ -19,6 +19,8 @@ class Fiat extends Component {
             transactions: [],
         };
         this.axios = require('axios');
+        this.CancelToken = require('axios').CancelToken;
+        this.source = this.CancelToken.source();
     }
 
     static contextType = ContextModule;
@@ -26,10 +28,11 @@ class Fiat extends Component {
     componentDidMount() {
         var config = {
             method: 'get',
-            url: 'https://XXXXXXXXXXXXXXX',
+            url: 'https://XXXXXXXXXXXXXXXXXXXXXXXXXXX/get-account-balance',
             headers: {
                 'ewallet': this.context.value.ewallet,
-            }
+            },
+            cancelToken: this.source.token
         };
         this.axios(config)
             .then((response) => {
@@ -48,10 +51,11 @@ class Fiat extends Component {
             });
         var config2 = {
             method: 'get',
-            url: 'https://XXXXXXXXXXXXXXX/get-transactions-ewallet',
+            url: 'https://XXXXXXXXXXXXXXXXXXXXXXXXXXX/get-transactions-ewallet',
             headers: {
                 'ewallet': this.context.value.ewallet,
-            }
+            },
+            cancelToken: this.source.token
         };
         this.axios(config2)
             .then((response) => {
@@ -67,7 +71,7 @@ class Fiat extends Component {
     }
 
     componentWillUnmount() {
-
+        this.source.cancel("Component got unmounted");
     }
 
     render() {

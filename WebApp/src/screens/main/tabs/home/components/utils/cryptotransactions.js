@@ -12,6 +12,8 @@ class Ctransactions extends Component {
         this.state = {
         };
         this.axios = require('axios');
+        this.CancelToken = require('axios').CancelToken;
+        this.source = this.CancelToken.source();
     }
 
     async componentDidMount() {
@@ -19,7 +21,7 @@ class Ctransactions extends Component {
     }
 
     componentWillUnmount() {
-
+        this.source.cancel("Component got unmounted");
     }
 
     render() {

@@ -15,6 +15,8 @@ class Verify extends Component {
         };
         reactAutobind(this);
         this.axios = require('axios');
+        this.CancelToken = require('axios').CancelToken;
+        this.source = this.CancelToken.source();
     }
 
     static contextType = ContextModule;
@@ -24,7 +26,7 @@ class Verify extends Component {
     }
 
     componentWillUnmount() {
-
+        this.source.cancel("Component got unmounted");
     }
 
     createVerification() {
@@ -33,15 +35,16 @@ class Verify extends Component {
         });
         this.axios({
             method: 'get',
-            url: 'https://XXXXXXXXXXXXXXX/create-verification',
+            url: 'https://XXXXXXXXXXXXXXXXXXXXXXXXXXX/create-verification',
             headers: {
                 'contact': this.state.contact,
                 'ewallet': this.state.ewallet
             },
+            cancelToken: this.source.token
         }).then((response) => {
             this.setState({ linkVerification: response.data.data.redirect_url });
             this.setState({ loading: false });
-        }).catch(function (error) {
+        }).catch((error) => {
             console.log(error);
         });
     }

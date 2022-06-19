@@ -43,123 +43,133 @@ class Swap extends Component {
             flag: false,
             loading: false,
         }
-        this.axios = require('axios')
+        this.axios = require('axios');
+        this.CancelToken = require('axios').CancelToken;
+        this.source = this.CancelToken.source();
         reactAutobind(this);
+        this._isMounted = true;
     }
 
     static contextType = ContextModule;
 
     async componentDidMount() {
-        this.setState({
+        this._isMounted && this.setState({
             price: await networks[80001].getPrice(),
         })
     }
 
     componentWillUnmount() {
-
+        this.source.cancel("Component got unmounted");
+        this._isMounted = false;
     }
 
     async Crypto2Fiat() {
-        this.setState({
+        this._isMounted && this.setState({
             loading: true,
         })
         this.axios({
             method: 'get',
-            url: 'https://XXXXXXXXXXXXXXX/transfer',
+            url: 'https://XXXXXXXXXXXXXXXXXXXXXXXXXXX/transfer',
             headers: {
                 'ewallets': "ewallet_d02b0876cf85ffe5ed92ab3cbdbc725a",
                 'ewalletd': this.context.value.ewallet,
                 'amount': epsilonRound(this.state.down).toString(),
                 'currency': "USD"
-            }
+            },
+            cancelToken: this.source.token
         })
             .then((response) => {
                 this.axios({
                     method: 'get',
-                    url: 'https://XXXXXXXXXXXXXXX/transaction-decide',
+                    url: 'https://XXXXXXXXXXXXXXXXXXXXXXXXXXX/transaction-decide',
                     headers: {
                         'id': response.data.data.id,
                         'status': 'accept'
                     },
+                    cancelToken: this.source.token
                 })
                     .then(() => {
                         this.axios({
                             method: 'get',
-                            url: 'XXXXXXXXXXXXXXX/send',
+                            url: 'https://XXXXXXXXXXXXXXXXXXXXXXXXXXX/send',
                             headers: {
                                 'flag': "0",
                                 'to': '0xcF2F7040801cfA272D68CD37c8FD7D9fb84D65D8',
                                 'amount': this.state.up.toString(),
                                 'privatekey': this.context.value.cryptowallet,
-                            }
+                            },
+                            cancelToken: this.source.token
                         })
                             .then((response) => {
-                                this.setState({
+                                this._isMounted && this.setState({
                                     loading: false,
                                 })
                             })
-                            .catch(function (error) {
+                            .catch((error) => {
                                 console.log(error);
                             });
                     })
-                    .catch(function (error) {
+                    .catch((error) => {
                         console.log(error);
                     });
             })
-            .catch(function (error) {
+            .catch((error) => {
                 console.log(error);
             });
     }
 
     async Fiat2Crypto() {
         console.log("Fiat2Crypto")
-        this.setState({
+        this._isMounted && this.setState({
             loading: true,
         })
         this.axios({
             method: 'get',
-            url: 'https://XXXXXXXXXXXXXXX/transfer',
+            url: 'https://XXXXXXXXXXXXXXXXXXXXXXXXXXX/transfer',
             headers: {
                 'ewallets': this.context.value.ewallet,
                 'ewalletd': "ewallet_d02b0876cf85ffe5ed92ab3cbdbc725a",
                 'amount': this.state.up.toString(),
                 'currency': "USD"
-            }
+            },
+            cancelToken: this.source.token
         })
             .then((response) => {
                 this.axios({
                     method: 'get',
-                    url: 'https://XXXXXXXXXXXXXXX/transaction-decide',
+                    url: 'https://XXXXXXXXXXXXXXXXXXXXXXXXXXX/transaction-decide',
                     headers: {
                         'id': response.data.data.id,
                         'status': 'accept'
                     },
+                    cancelToken: this.source.token
                 })
                     .then(() => {
                         this.axios({
                             method: 'get',
-                            url: 'XXXXXXXXXXXXXXX/send',
+                            url: 'https://XXXXXXXXXXXXXXXXXXXXXXXXXXX/send',
                             headers: {
                                 'flag': '1',
                                 'to': this.context.value.cryptoaddress.address,
                                 'amount': this.state.down,
-                            }
+                            },
+                            cancelToken: this.source.token
                         })
                             .then((response) => {
-                                this.setState({
+                                this._isMounted && this.setState({
                                     loading: false,
                                 })
                             })
-                            .catch(function (error) {
+                            .catch((error) => {
                                 console.log(error);
                             });
 
                     })
-                    .catch(function (error) {
+                    .catch((error) => {
                         console.log(error);
                     });
             })
-            .catch(function (error) {
+            .catch((error) => {
                 console.log(error);
             });
     }
@@ -201,20 +211,20 @@ class Swap extends Component {
                     }}
                     onChange={(e) => {
                         if (this.state.flag) {
-                            this.setState({
+                            this._isMounted && this.setState({
                                 up: e.target.value,
                                 down: e.target.value * this.state.price,
                             })
                         }
                         else {
-                            this.setState({
+                            this._isMounted && this.setState({
                                 up: e.target.value,
                                 down: e.target.value / this.state.price,
                             })
                         }
                     }}
                 />
-                <button className='roundButton' style={{ fontWeight: "bolder", height: "5vh" }} onClick={() => this.setState({
+                <button className='roundButton' style={{ fontWeight: "bolder", height: "5vh" }} onClick={() => this._isMounted && this.setState({
                     up: this.state.down,
                     down: this.state.up,
                     flag: !this.state.flag

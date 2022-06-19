@@ -43,8 +43,11 @@ class Feeds extends Component {
             balance: 0,
         }
         this.axios = require('axios')
+        this.CancelToken = require('axios').CancelToken;
+        this.source = this.CancelToken.source();
         reactAutobind(this);
         this.mySync = null;
+        this._isMounted = true;
     }
 
     static contextType = ContextModule;
@@ -65,36 +68,34 @@ class Feeds extends Component {
             matic: parseFloat((priceMatic).toString()) / 100000000,
             usdc: parseFloat((priceUSDC).toString()) / 100000000,
         }
-        this.setState({
+        this._isMounted && this.setState({
             prices: [epsilonRound(prices.btc), epsilonRound(prices.eth), epsilonRound(prices.bnb), epsilonRound(prices.link), epsilonRound(prices.matic), prices.usdc],
         })
     }
 
     async componentDidMount() {
-        var config = {
+        this.axios({
             method: 'get',
-            url: `https://deep-index.moralis.io/api/v2/${this.context.value.cryptoaddress.address}/balance?chain=mumbai`,
+            url: `https://api.covalenthq.com/v1/80001/address/${this.context.value.cryptoaddress.address}/balances_v2/?key=XXXXXXXXXXXXXXXXXXXXXXXXXXX`,
             headers: {
-                'accept': 'application/json',
-                'X-API-Key': 'xxxxxxxxxxxxxxxxxx'
-            }
-        };
-        this.axios(config)
+                'Accept': 'application/json'
+            },
+            cancelToken: this.source.token
+        })
             .then((response) => {
-                this.context.setValue({ cryptobalance: response.data.balance / 1000000000000000000 });
+                this.context.setValue({ cryptobalance: response.data.data.items[0].balance / 1000000000000000000 });
             })
             .catch((error) => {
                 console.log(error);
             });
-
-        var configw = {
+        this.axios({
             method: 'get',
-            url: 'https://XXXXXXXXXXXXXXX',
+            url: 'https://XXXXXXXXXXXXXXXXXXXXXXXXXXX/get-account-balance',
             headers: {
                 'ewallet': this.context.value.ewallet,
-            }
-        };
-        this.axios(configw)
+            },
+            cancelToken: this.source.token
+        })
             .then((response) => {
                 const myArray = filterJSONarray(response.data.data.accounts, "currency", "USD")
                 if (myArray.length > 0) {
@@ -125,7 +126,7 @@ class Feeds extends Component {
             matic: parseFloat((priceMatic).toString()) / 100000000,
             usdc: parseFloat((priceUSDC).toString()) / 100000000,
         }
-        this.setState({
+        this._isMounted && this.setState({
             prices: [epsilonRound(prices.btc), epsilonRound(prices.eth), epsilonRound(prices.bnb), epsilonRound(prices.link), epsilonRound(prices.matic), prices.usdc],
         })
         this.mySync = setInterval(() => {
@@ -135,6 +136,8 @@ class Feeds extends Component {
 
     componentWillUnmount() {
         clearInterval(this.mySync);
+        this.source.cancel("Component got unmounted");
+        this._isMounted = false;
     }
 
     render() {
@@ -148,8 +151,8 @@ class Feeds extends Component {
                         justifyContent: 'center',
                     }}>
                         <div style={{
-                            paddingTop:"1rem",
-                            fontSize:"1.4rem",
+                            paddingTop: "1rem",
+                            fontSize: "1.4rem",
                         }}>
                             <div>
                                 Total Balance

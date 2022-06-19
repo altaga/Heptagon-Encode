@@ -112,17 +112,34 @@ class MyModal extends Component {
             nftSelected: null,
         };
         reactAutobind(this);
+        this.axios = require('axios');
+        this.CancelToken = require('axios').CancelToken;
+        this.source = this.CancelToken.source();
         this.chatContract = null;
         this.contractsNFT = [];
         this.syncMessages = null;
         this.syncNFT = null;
+        this._isMounted = true;
     }
 
     static contextType = ContextModule;
 
     async componentDidMount() {
         this.chatContract = new ethers.Contract(networks[80001].contractAddress, abi(), this.context.value.cryptoaddress);
-        let temp = await networks[80001].getNFT(this.context.value.cryptoaddress.address)
+        let temp = await this.axios({
+            method: 'get',
+            url: `https://api.covalenthq.com/v1/80001/address/${this.context.value.cryptoaddress.address}/balances_v2/?key=XXXXXXXXXXXXXXXXXXXXXXXXXXX&format=JSON&nft=true&no-nft-fetch=false`,
+            headers: {
+                'Accept': 'application/json'
+            },
+            cancelToken: this.source.token
+        })
+        temp = temp.data.data.items.filter(item => item.type === "nft");
+        temp = temp.map(item => {
+            return ({
+                contractAddress: item.contract_address
+            })
+        })
         temp.forEach((item) => {
             if (item.contractAddress !== "") {
                 this.contractsNFT.push(new ethers.Contract(item.contractAddress, abi2(), this.context.value.cryptoaddress));
@@ -155,11 +172,24 @@ class MyModal extends Component {
             }
             catch (e) { }
         }
-        this.setState({
+        this._isMounted && this.setState({
             nfts: res
         })
         this.syncNFT = setInterval(async () => {
-            let temp = await networks[80001].getNFT(this.context.value.cryptoaddress.address)
+            temp = await this.axios({
+                method: 'get',
+                url: `https://api.covalenthq.com/v1/80001/address/${this.context.value.cryptoaddress.address}/balances_v2/?key=XXXXXXXXXXXXXXXXXXXXXXXXXXX&format=JSON&nft=true&no-nft-fetch=false`,
+                headers: {
+                    'Accept': 'application/json'
+                },
+                cancelToken: this.source.token
+            })
+            temp = temp.data.data.items.filter(item => item.type === "nft");
+            temp = temp.map(item => {
+                return ({
+                    contractAddress: item.contract_address
+                })
+            })
             temp.forEach((item) => {
                 if (item.contractAddress !== "") {
                     this.contractsNFT.push(new ethers.Contract(item.contractAddress, abi2(), this.context.value.cryptoaddress));
@@ -193,7 +223,7 @@ class MyModal extends Component {
                 catch (e) { }
             }
             if (this.state.nfts.length !== res.length) {
-                this.setState({
+                this._isMounted && this.setState({
                     nfts: res
                 })
             }
@@ -201,8 +231,10 @@ class MyModal extends Component {
     }
 
     componentWillUnmount() {
+        this._isMounted = false;
         clearInterval(this.syncMessages);
         clearInterval(this.syncNFT);
+        his.cancelToken.cancel('Operation canceled by the user.');
     }
 
     async checkMessages(account, to) {
@@ -224,25 +256,25 @@ class MyModal extends Component {
     }
 
     async startChat(from, to) {
-        this.setState({
+        this._isMounted && this.setState({
             chatStarted: true,
             syncFlag: true
         })
         this.syncMessages = setInterval(async () => {
             if (this.state.syncFlag) {
-                this.setState({
+                this._isMounted && this.setState({
                     syncFlag: false
                 }, async () => {
                     let messages = await this.getAndProcessMessages(from, to);
                     if (messages.length > 0 && this.state.messageHistory.length !== messages.length) {
                         console.log("Checking messages...");
-                        this.setState({
+                        this._isMounted && this.setState({
                             messageHistory: messages,
                             syncFlag: true
                         })
                     }
                     else {
-                        this.setState({
+                        this._isMounted && this.setState({
                             syncFlag: true
                         })
                     }
@@ -256,7 +288,7 @@ class MyModal extends Component {
         if (this.state.req) {
             tempMessage += ":req:" + num
         }
-        this.setState({
+        this._isMounted && this.setState({
             sending: true
         }, async () => {
             if (this.state.nftSelected ? true : false) {
@@ -268,7 +300,7 @@ class MyModal extends Component {
             const options = { value: this.state.req ? "0" : ethers.utils.parseEther(num) }
             const transaction = await this.chatContract.addMessage(to, tempMessage, options)
             await transaction.wait();
-            this.setState({
+            this._isMounted && this.setState({
                 sending: false,
                 req: false,
                 message: ""
@@ -277,7 +309,10 @@ class MyModal extends Component {
     }
 
     toggle() {
-        this.setState({
+        if(!isOpen){
+
+        }
+        this._isMounted && this.setState({
             isOpen: !this.state.isOpen,
         });
     }
@@ -296,7 +331,7 @@ class MyModal extends Component {
                                         onClick={() => {
                                             if (this.state.chatAddress.length === 42) {
                                                 if (!this.state.chatStarted) {
-                                                    this.setState({
+                                                    this._isMounted && this.setState({
                                                         chatStarted: true,
                                                     }, async () => {
                                                         await this.startChat(this.context.value.cryptoaddress.address, this.state.chatAddress)
@@ -304,7 +339,7 @@ class MyModal extends Component {
                                                 }
                                                 else {
                                                     clearInterval(this.syncMessages);
-                                                    this.setState({
+                                                    this._isMounted && this.setState({
                                                         isOpen: false,
                                                         chatAddress: "",
                                                         messageHistory: [],
@@ -346,7 +381,7 @@ class MyModal extends Component {
                                             }}
                                             value={this.state.chatAddress}
                                             onChange={(e) =>
-                                                this.setState({
+                                                this._isMounted && this.setState({
                                                     chatAddress: e.target.value,
                                                 })
                                             } />
@@ -471,17 +506,17 @@ class MyModal extends Component {
                                             }}
                                             value={this.state.message}
                                             onChange={(e) =>
-                                                this.setState({
+                                                this._isMounted && this.setState({
                                                     message: e.target.value,
                                                 })
                                             }
                                             onFocus={() => {
-                                                this.setState({
+                                                this._isMounted && this.setState({
                                                     keyboardAppear: true,
                                                 })
                                             }}
                                             onBlur={() => {
-                                                this.setState({
+                                                this._isMounted && this.setState({
                                                     keyboardAppear: false,
                                                 })
                                             }}
@@ -497,17 +532,17 @@ class MyModal extends Component {
                                             }}
                                             value={this.state.number}
                                             onChange={(e) =>
-                                                this.setState({
+                                                this._isMounted && this.setState({
                                                     number: e.target.value,
                                                 })
                                             }
                                             onFocus={() => {
-                                                this.setState({
+                                                this._isMounted && this.setState({
                                                     keyboardAppear: true,
                                                 })
                                             }}
                                             onBlur={() => {
-                                                this.setState({
+                                                this._isMounted && this.setState({
                                                     keyboardAppear: false,
                                                 })
                                             }}
@@ -529,18 +564,18 @@ class MyModal extends Component {
                                                 width: "100%",
                                             }}
                                             onChange={(e) =>
-                                                this.setState({
+                                                this._isMounted && this.setState({
                                                     nftSelected: this.state.nfts[e.target.value],
                                                 })
                                             }
                                             defaultValue={"Select"}
                                             onFocus={() => {
-                                                this.setState({
+                                                this._isMounted && this.setState({
                                                     keyboardAppear: true,
                                                 })
                                             }}
                                             onBlur={() => {
-                                                this.setState({
+                                                this._isMounted && this.setState({
                                                     keyboardAppear: false,
                                                 })
                                             }}

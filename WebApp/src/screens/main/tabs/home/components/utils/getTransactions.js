@@ -18,7 +18,7 @@ export const getArbitrum = async (address) => {
                     }
                 )));
             })
-            .catch(function (error) {
+            .catch((error) => {
                 reject([]);
             });
     });
@@ -43,7 +43,7 @@ export const getRopsten = async (address) => {
                     }
                 )));
             })
-            .catch(function (error) {
+            .catch((error) => {
                 reject([]);
             });
     });
@@ -68,7 +68,7 @@ export const getFantom = async (address) => {
                     }
                 )));
             })
-            .catch(function (error) {
+            .catch((error) => {
                 reject([]);
             });
     });
@@ -93,7 +93,7 @@ export const getBnb = async (address) => {
                     }
                 )));
             })
-            .catch(function (error) {
+            .catch((error) => {
                 reject([]);
             });
     });
@@ -118,7 +118,7 @@ export const getAvax = async (address) => {
                     }
                 )));
             })
-            .catch(function (error) {
+            .catch((error) => {
                 reject([]);
             });
     });
@@ -142,7 +142,7 @@ export const getPolygon = async (address) => {
                     }
                 )));
             })
-            .catch(function (error) {
+            .catch((error) => {
                 reject([]);
             });
     });

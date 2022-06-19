@@ -18,7 +18,7 @@ export const getNFTArbitrum = async (address) => {
                     }
                 )));
             })
-            .catch(function (error) {
+            .catch((error) => {
                 reject([]);
             });
     });
@@ -43,7 +43,7 @@ export const getNFTRopsten = async (address) => {
                     }
                 )));
             })
-            .catch(function (error) {
+            .catch((error) => {
                 reject([]);
             });
     });
@@ -68,7 +68,7 @@ export const getNFTFantom = async (address) => {
                     }
                 )));
             })
-            .catch(function (error) {
+            .catch((error) => {
                 reject([]);
             });
     });
@@ -93,7 +93,7 @@ export const getNFTBnb = async (address) => {
                     }
                 )));
             })
-            .catch(function (error) {
+            .catch((error) => {
                 reject([]);
             });
     });
@@ -118,7 +118,7 @@ export const getNFTAvax = async (address) => {
                     }
                 )));
             })
-            .catch(function (error) {
+            .catch((error) => {
                 reject([]);
             });
     });
@@ -142,7 +142,7 @@ export const getNFTPolygon = async (address) => {
                     }
                 )));
             })
-            .catch(function (error) {
+            .catch((error) => {
                 reject([]);
             });
     });

@@ -13,12 +13,12 @@ class ContextProvider extends React.Component {
       balance: 0,
       cryptobalance: 0,
       rpcURL: '',
-      ewallet: '',
-      cryptowallet: '',
-      cryptoaddress: '',
+      ewallet: '', //
+      cryptowallet: '', //
+      cryptoaddress: '', //
       nft:[],
-      page: 1,
-      provider: new ethers.providers.JsonRpcProvider("https://polygon-mumbai.g.alchemy.com/v2/uxHH9lIOPMgK2-oJraKWvq9CbO2qTX4f")
+      page: 1, 
+      provider: new ethers.providers.JsonRpcProvider("https://polygon-mumbai.g.alchemy.com/v2/XXXXXXXXXXXXXXXXXXXXXXXXXXXX")
     }
   }
 

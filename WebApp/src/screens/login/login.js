@@ -17,6 +17,8 @@ class Login extends Component {
         };
         reactAutobind(this);
         this.axios = require('axios');
+        this.CancelToken = require('axios').CancelToken;
+        this.source = this.CancelToken.source();
     }
 
     static contextType = ContextModule;
@@ -26,7 +28,7 @@ class Login extends Component {
     }
 
     componentWillUnmount() {
-
+        this.source.cancel("Component got unmounted");
     }
 
     connect() {
@@ -51,11 +53,12 @@ class Login extends Component {
         this.setState({ loading: true });
         let config = {
             method: 'get',
-            url: '	https://XXXXXXXXXXXXXXX',
+            url: '	https://XXXXXXXXXXXXXXXXXXXXXXXXXXX/Heptagon-Login',
             headers: {
                 'user': this.state.user,
                 'pass': this.state.password
-            }
+            },
+            cancelToken: this.source.token
         };
         this.axios(config)
             .then(async (response) => {
@@ -64,15 +67,18 @@ class Login extends Component {
                     this.setState({ loading: false });
                 }
                 else {
+                    console.log(response.data);
                     config = {
                         method: 'get',
-                        url: 'https://XXXXXXXXXXXXXXX',
+                        url: 'https://XXXXXXXXXXXXXXXXXXXXXXXXXXX/get-account-balance',
                         headers: {
                             'ewallet': response.data
-                        }
+                        },
+                        cancelToken: this.source.token
                     };
                     this.axios(config)
                         .then(async (response) => {
+                            console.log(response.data);
                             let Wallet = new ethers.Wallet(response.data.data.metadata.signature, this.context.value.provider)
                             this.context.setValue({
                                 ewallet: response.data.data.id,

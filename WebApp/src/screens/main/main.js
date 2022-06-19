@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import reactAutobind from 'react-autobind';
-import { Card, CardBody, CardHeader, Col, Row, Button, ButtonGroup } from 'reactstrap';
+import { Col, Row, Button, ButtonGroup } from 'reactstrap';
 import Cash from './tabs/cash/cash';
 import Home from './tabs/home/home';
 import Swap from './tabs/swap/swap';
 import ContextModule from '../../utils/contextModule';
 import logo from '../../assets/img/logo.png';
 import MyModal from './modal/myModal';
+import MyQRModal from './qrmodal/myModal';
 import Feeds from './tabs/feed/feeds';
 import HomeIcon from '@mui/icons-material/Home';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import SwitchAccountIcon from '@mui/icons-material/SwitchAccount';
 import MoneyIcon from '@mui/icons-material/Money';
+import QR from '../../assets/img/qr.png';
 
 class Main extends Component {
     constructor(props) {
@@ -58,12 +60,15 @@ class Main extends Component {
                 <div className='header' style={{
                     borderBottom: '2px solid #8345e6',
                 }}>
-                    <Row md="3" style={{ paddingTop: "2vh" }}>
+                    <Row md="4" style={{ paddingTop: "2vh" }}>
                         <Col xs="4">
                             <img src={logo} alt="logo" style={{ height: "6vh" }} />
                         </Col>
-                        <Col xs="4" style={{ paddingTop: "0.5vh" }}>
+                        <Col xs="2" style={{ paddingTop: "0.5vh" }}>
                             <MyModal />
+                        </Col>
+                        <Col xs="2" style={{ paddingTop: "0.5vh" }}>
+                            <MyQRModal />
                         </Col>
                         <Col xs="4">
                             <Button id="logoutButton" className='roundButton' style={{ width: "90%", fontWeight: "bolder" }} onClick={() => {

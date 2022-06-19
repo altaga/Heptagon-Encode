@@ -51,6 +51,8 @@ class Cash extends Component {
             loading2: false,
         }
         this.axios = require('axios');
+        this.CancelToken = require('axios').CancelToken;
+        this.source = this.CancelToken.source();
         reactAutobind(this);
     }
 
@@ -59,7 +61,7 @@ class Cash extends Component {
     }
 
     componentWillUnmount() {
-
+        this.source.cancel("Component got unmounted");
     }
 
     createSpeiTransfer() {
@@ -68,10 +70,11 @@ class Cash extends Component {
         })
         this.axios({
             method: 'get',
-            url: 'XXXXXXXXXXXXXXX/create-banktransfer',
+            url: 'https://XXXXXXXXXXXXXXXXXXXXXXXXXXX/create-banktransfer',
             headers: {
                 'amount': this.state.amount,
-            }
+            },
+            cancelToken: this.source.token
         })
             .then((response) => {
                 console.log(response.data.data.redirect_url);
@@ -89,20 +92,22 @@ class Cash extends Component {
         })
         var config = {
             method: 'get',
-            url: 'https://XXXXXXXXXXXXXXX',
+            url: 'https://XXXXXXXXXXXXXXXXXXXXXXXXXXX/get-account-balance',
             headers: {
                 'ewallet': "ewallet_39c38f3c402027b5c86624c3af7d652a"
-            }
+            },
+            cancelToken: this.source.token
         };
         this.axios(config)
             .then((response) => {
                 config = {
                     method: 'get',
-                    url: 'https://XXXXXXXXXXXXXXX/card-issue',
+                    url: 'https://XXXXXXXXXXXXXXXXXXXXXXXXXXX/card-issue',
                     headers: {
                         //'ewallet_contact': this.props.ewallet,
                         'ewallet_contact': response.data.data.contacts.data[0].id
-                    }
+                    },
+                    cancelToken: this.source.token
                 };
                 this.axios(config)
                     .then((response) => {

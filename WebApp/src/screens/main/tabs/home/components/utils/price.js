@@ -4,7 +4,7 @@ export const getPriceAvax = async (address) => {
     return new Promise((resolve, reject) => {
         var config = {
             method: 'get',
-            url: 'XXXXXXXXXXXXXXX/request',
+            url: 'https://XXXXXXXXXXXXXXXXXXXXXXXXXXX/request',
             headers: {
                 'chain': 'avax'
             }
@@ -14,7 +14,7 @@ export const getPriceAvax = async (address) => {
             .then(function (response) {
                 resolve(response.data.usd.price);
             })
-            .catch(function (error) {
+            .catch((error) => {
                 reject("0");
             });
     });
@@ -24,7 +24,7 @@ export const getPriceBSC = async (address) => {
     return new Promise((resolve, reject) => {
         var config = {
             method: 'get',
-            url: 'XXXXXXXXXXXXXXX/request',
+            url: 'https://XXXXXXXXXXXXXXXXXXXXXXXXXXX/request',
             headers: {
                 'chain': 'bsc'
             }
@@ -34,7 +34,7 @@ export const getPriceBSC = async (address) => {
             .then(function (response) {
                 resolve(response.data.result.ethusd);
             })
-            .catch(function (error) {
+            .catch((error) => {
                 reject("0");
             });
     });
@@ -44,7 +44,7 @@ export const getPriceFantom = async (address) => {
     return new Promise((resolve, reject) => {
         var config = {
             method: 'get',
-            url: 'XXXXXXXXXXXXXXX/request',
+            url: 'https://XXXXXXXXXXXXXXXXXXXXXXXXXXX/request',
             headers: {
                 'chain': 'fantom'
             }
@@ -54,7 +54,7 @@ export const getPriceFantom = async (address) => {
             .then(function (response) {
                 resolve(response.data.result.ethusd);
             })
-            .catch(function (error) {
+            .catch((error) => {
                 reject("0");
             });
     });
@@ -64,7 +64,7 @@ export const getPriceRopsten = async (address) => {
     return new Promise((resolve, reject) => {
         var config = {
             method: 'get',
-            url: 'XXXXXXXXXXXXXXX/request',
+            url: 'https://XXXXXXXXXXXXXXXXXXXXXXXXXXX/request',
             headers: {
                 'chain': 'eth'
             }
@@ -74,7 +74,7 @@ export const getPriceRopsten = async (address) => {
             .then(function (response) {
                 resolve(response.data.result.ethusd);
             })
-            .catch(function (error) {
+            .catch((error) => {
                 reject("0");
             });
     });
@@ -84,7 +84,7 @@ export const getPricePolygon = async (address) => {
     return new Promise((resolve, reject) => {
         var config = {
             method: 'get',
-            url: 'XXXXXXXXXXXXXXX/request',
+            url: 'https://XXXXXXXXXXXXXXXXXXXXXXXXXXX/request',
             headers: {
                 'chain': 'polygon'
             }
@@ -94,7 +94,7 @@ export const getPricePolygon = async (address) => {
             .then(function (response) {
                 resolve(response.data.result.maticusd);
             })
-            .catch(function (error) {
+            .catch((error) => {
                 reject("0");
             });
     });
