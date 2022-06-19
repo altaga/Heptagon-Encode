@@ -1,4 +1,4 @@
-# Heptagon-Chainlink
+# Heptagon-Encode
 
 Heptagon is a Polygon based DeFi dapp that works in tandem with ChainLink, Moralis, IPFS and Rapyd to offer a fiat ramp, price data feeds, cash out and an Instant messenger where you can chat and send tokens and NFTs. 
 
