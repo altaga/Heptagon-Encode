@@ -69,9 +69,27 @@ Finally, in the last button you can complete the KYC through Rapyd to verify you
 
 In the swap section (first phone in the next image) we can make an exchange between our Fiat account and our crypto account, we only have to select if we want to convert Crypto to Dollar or Dollar to Crypto. Once the transaction is signed and the operation is finished in the home section we will be able to see how we have already received our money in our Fiat account and deducted it from our Crypto account.
 
-<img src="https://i.ibb.co/54J24m3/New-Project-1.png">
+<img src="https://i.ibb.co/2vBwdSq/New-Project-2.png">
 
+In our Cash out section (Second phone in the image above) we will have 2 options, generate a virtual debit card where we can use our Fiat money or make an electronic transfer to another debit card, either visa or mastercard.
 
+## Messenger:
+
+Since each message is sent to a smart contract, we must sign the transaction and pay the fee for the transaction. Once the message is sent, we can see it appear in the chat.
+
+<img src="https://i.ibb.co/HxJCq3D/New-Project-3.png">
+
+We have to mention that everything regarding the messenger was developed with Polygon and every transaction or message is wallet signed in the background.
+
+https://github.com/altaga/Heptagon-Encode/blob/main/Contracts/Chat.sol
+
+At the same time we integrate a chat section, where we can talk to any address on the same network, first we put the address with which we want to talk and we can start sending messages, in this case it is possible to send messages, send attached money or even send an NFT.
+
+## QR Transfer:
+
+<img src="https://i.ibb.co/BsMWK9N/New-Project-4.png">
+
+<img src="https://i.ibb.co/MCtJvTQ/New-Project-5.png">
 
 # References
 
