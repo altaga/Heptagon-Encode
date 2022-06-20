@@ -14,14 +14,14 @@ We just need the correct tools, applications and technologies.
 
 # Diagram:
 
-<img src="https://i.ibb.co/SfCYnPG/Scheme-drawio-3.png">
+<img src="https://i.ibb.co/xJJCX0N/Cheme-drawio.png">
 
-- The main services we are using is Polygon, ChainLink, Moralis, IPFS and Rapyd.
+- The main services we are using is Polygon, ChainLink, Covalent API, IPFS and Rapyd.
 - Polygon is our main blockchain, where thanks to its low fees we can provide the following services.
   - Decentralized Chat.
   - Transfer tokens and NFT's
  - Chainlink, thanks to its data feeds, provides us with the possibility of consuming them directly within a smart contract, in this case we use a contract deployed in Polygon Mainnet as a bridge to provide our dapp with the prices of BTC, BNB, USDC, MATIC, LINK and ETH.
-- Moralis provides us with a very efficient API to obtain data from our NFT's and Token balances in our account.
+- CovalentAPI provides us with a very efficient API to obtain data from our NFT's and Token balances in our account.
 - Rapyd allows us, on your side, to carry out the KYC to use the Fiat services and also to checkout our fiat money through a virtual card or transfer.
 - The Swap is the only section where we coordinate Rapyd and Polygon services to be able to exchange MATIC to Fiat money.
 
