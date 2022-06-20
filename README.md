@@ -95,8 +95,20 @@ En este caso para poder realizar este ejemplo se utilizaron celulares reales (de
 
 <img src="https://i.ibb.co/MCtJvTQ/New-Project-5.png">
 
+# What's next for Heptagon
+
+Heptagon is a Dapp capable of swapping, cashing out and messaging, where you can save and send NFTs, all registered within the polygon network. During the creation process, the incorporation of IPFS was complex because we wanted to integrate it with our blockchain-abled instant messenger. This is where choosing Polygon and Covalent as our backend and Blockchain of choice paid out as the assembly of all the concepts was easy enough after reading some documentation and using some templates. For future steps we want to improve the UI to make it as intuitive and user friendly as possible. We will be seeking to launch a beta to test the performance of the application.
+
 # References
 
-https://www.caf.com/en/currently/news/2020/08/inclusion-and-financial-literacy-keys-to-reducing-gaps-in-latin-america-and-the-caribbean/#:~:text=In%20Latin%20America%20and%20the%20Caribbean%2C%20while%20financial%20inclusion%20levels,access%20to%20formal%20financial%20services.
+- https://www.caf.com/en/currently/news/2020/08/inclusion-and-financial-literacy-keys-to-reducing-gaps-in-latin-america-and-the-caribbean/#:~:text=In%20Latin%20America%20and%20the%20Caribbean%2C%20while%20financial%20inclusion%20levels,access%20to%20formal%20financial%20services.
 
-https://iamericas.org/latin-america-in-crypto-defi-cbdc-blockchain-transition/
+- https://iamericas.org/latin-america-in-crypto-defi-cbdc-blockchain-transition/
+
+- https://docs.chain.link/docs/using-chainlink-reference-contracts/
+
+- https://polygon.technology/
+
+- https://www.covalenthq.com/
+
+- https://ipfs.io/
