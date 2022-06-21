@@ -87,11 +87,11 @@ At the same time we integrate a chat section, where we can talk to any address o
 
 ## QR Transfer:
 
-Como ya es parte escencial en cualquier wallet, tenemos tambien la capacidad de hacer tranferencias a travez de el escaneo de un QR.
+As it is already an essential part of any wallet, we also have the ability to make transfers by scanning a QR.
 
 <img src="https://i.ibb.co/BsMWK9N/New-Project-4.png">
 
-En este caso para poder realizar este ejemplo se utilizaron celulares reales (de echo es la misma transaccion que puedes ver en nuestro demo).
+In this case, in order to carry out this example, real cell phones were used (in fact, it is the same transaction that you can see in our demo).
 
 <img src="https://i.ibb.co/MCtJvTQ/New-Project-5.png">
 
